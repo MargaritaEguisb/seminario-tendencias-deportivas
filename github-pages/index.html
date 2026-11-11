@@ -63,6 +63,7 @@
     .sim-head{padding:16px 18px;border-bottom:1px solid rgba(0,200,255,.22);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;background:linear-gradient(90deg,rgba(0,229,255,.06),rgba(255,43,214,.04))}
     .sim-head p{margin:0;color:#35516f}
     .sim-frame{width:100%;height:72vh;min-height:520px;border:0;display:block;background:#050a14}
+    .mobile-note{display:none}
     .note{font-size:13px;color:var(--muted);margin-top:8px}
 
     .timeline{display:grid;gap:12px}
@@ -89,6 +90,7 @@
     .kpi div{padding:12px;border:1px solid rgba(0,200,255,.25);border-radius:12px;background:#ffffff;box-shadow:0 4px 14px rgba(16,35,61,.04)}
     .kpi b{display:block;font-size:20px;color:#0b63ce;text-shadow:0 0 10px rgba(0,200,255,.12)}
     @media (max-width:980px){.hero-grid,.grid-3,.grid-2,.kpi{grid-template-columns:1fr}.block{grid-template-columns:1fr}.right-col{order:-1}.nav-links{display:none}.sim-frame{height:60vh}.brand-wrap{gap:8px}.logo{height:38px}}
+    @media (max-width:700px){.sim-frame{display:none}.sim-head .sim-instructions{display:none}.sim-head .mobile-note{display:block}.sim-head .btn{width:100%;text-align:center}}
   </style>
 </head>
 <body>
@@ -165,8 +167,9 @@
       </div>
       <div class="card sim-wrap">
         <div class="sim-head">
-          <p><b>Uso en clase:</b> proyectar en pantalla inteligente, navegar por zonas, activar recorrido/narración y usar clic para abrir información.</p>
-          <a class="btn" href="vr-lab/index.html" target="_blank" rel="noopener">Abrir en pantalla completa</a>
+          <p class="sim-instructions"><b>Uso en clase:</b> proyectar en pantalla inteligente, navegar por zonas, activar recorrido/narración y usar clic para abrir información.</p>
+          <p class="mobile-note">En móvil, abre el laboratorio en otra pestaña para aprovechar mejor el espacio y los controles táctiles.</p>
+          <a class="btn" href="vr-lab/index.html" target="_blank" rel="noopener">Abrir laboratorio en otra pestaña</a>
         </div>
         <iframe class="sim-frame" src="vr-lab/index.html" title="Laboratorio 3D de tendencias deportivas" loading="lazy" allowfullscreen></iframe>
       </div>

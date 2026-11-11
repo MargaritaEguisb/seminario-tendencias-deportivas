@@ -35,6 +35,15 @@ git push -u origin main
 3. En **Settings → Pages**, selecciona rama `main` y carpeta **/docs**.
 4. El enlace será: `https://<TU_USUARIO>.github.io/<TU_REPOSITORIO>/`
 
+## Opción C: Publicar desde este repositorio con GitHub Actions
+
+El workflow de `.github/workflows/deploy-pages.yml` publica automáticamente el contenido de `github-pages/` cuando hay cambios en la rama `main`.
+
+1. Sube los cambios a la rama `main`, incluyendo el workflow.
+2. En **Settings → Pages**, selecciona **GitHub Actions** como origen de publicación.
+3. En **Actions**, espera a que el workflow **Deploy GitHub Pages** termine correctamente.
+4. El sitio quedará disponible en `https://<TU_USUARIO>.github.io/<TU_REPOSITORIO>/`.
+
 ## Verificación
 
 - Abre el enlace generado y comprueba que se vea el logo, la landing y que el bloque de **Simulación 3D integrada** cargue el laboratorio (`vr-lab/index.html`).
