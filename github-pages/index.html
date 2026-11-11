@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seminario: Tendencias Deportivas y Laboratorio 3D Interactivo | Martha Toro</title>
+  <style>
+    :root{
+      --bg:#f4f8ff; --bg2:#eaf2ff; --card:#ffffff; --card2:#f7fbff; --text:#10233d; --muted:#4f6787;
+      --line:rgba(0, 229, 255, .35); --accent:#00c8ff; --accent2:#00e676; --neon-pink:#ff2bd6; --warm:#ff9f1c;
+      --shadow:0 10px 30px rgba(16,35,61,.08); --glow-cyan:0 0 0 1px rgba(0,229,255,.25), 0 0 18px rgba(0,229,255,.18);
+      --glow-pink:0 0 0 1px rgba(255,43,214,.2), 0 0 18px rgba(255,43,214,.12);
+      --radius:18px; --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:"Segoe UI",Inter,Roboto,Arial,sans-serif;color:var(--text);background:
+      radial-gradient(900px 420px at 5% -10%, rgba(0,229,255,.18) 0%, transparent 60%),
+      radial-gradient(800px 380px at 100% 0%, rgba(255,43,214,.10) 0%, transparent 55%),
+      radial-gradient(700px 360px at 50% 100%, rgba(0,230,118,.10) 0%, transparent 60%),
+      linear-gradient(180deg, #f8fbff 0%, var(--bg) 45%, #eef6ff 100%); line-height:1.5}
+    a{color:#0077cc}
+    .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+    .nav{position:sticky;top:0;z-index:50;background:rgba(248,251,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,200,255,.25);box-shadow:0 4px 24px rgba(0,200,255,.08)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0}
+    .brand-wrap{display:flex;align-items:center;gap:12px}
+    .logo{height:46px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(0,229,255,.25))}
+    .brand{font-weight:700;letter-spacing:.2px;color:#0f2340}
+    .brand small{display:block;color:var(--muted);font-weight:500}
+    .nav-links{display:flex;flex-wrap:wrap;gap:10px}
+    .nav-links a{color:#123456;text-decoration:none;font-size:14px;padding:8px 10px;border-radius:10px;border:1px solid transparent}
+    .nav-links a:hover{border-color:rgba(0,229,255,.45);background:rgba(0,229,255,.08);box-shadow:var(--glow-cyan)}
+    .hero{padding:64px 0 28px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:stretch}
+    .badge{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border:1px solid rgba(0,230,118,.45);border-radius:999px;color:#0b6b46;font-size:13px;background:rgba(0,230,118,.10);box-shadow:0 0 14px rgba(0,230,118,.12)}
+    h1{font-size:clamp(30px,4.2vw,52px);line-height:1.08;margin:14px 0 12px;color:#0b1f3a;text-shadow:0 0 18px rgba(0,229,255,.12)}
+    .lead{font-size:18px;color:#294766;max-width:70ch}
+    .hero-card,.card{background:linear-gradient(180deg,rgba(255,255,255,.98),rgba(247,251,255,.96));border:1px solid rgba(0,200,255,.28);border-radius:var(--radius);box-shadow:var(--shadow), 0 0 0 1px rgba(255,255,255,.6) inset}
+    .hero-card{padding:20px;box-shadow:var(--shadow), var(--glow-cyan)}
+    .hero-card h3{margin:0 0 10px;font-size:18px;color:#0f2746}
+    .meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .meta div{background:#f6fbff;border:1px solid rgba(0,200,255,.22);border-radius:12px;padding:10px}
+    .meta b{display:block;font-size:13px;color:#4f6787;font-weight:600;margin-bottom:2px}
+    .cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+    .btn{display:inline-block;text-decoration:none;padding:12px 16px;border-radius:12px;font-weight:600;border:1px solid rgba(0,200,255,.35);color:#0f2746;background:#ffffff;box-shadow:0 2px 10px rgba(16,35,61,.04)}
+    .btn.primary{background:linear-gradient(135deg,#00c8ff,#39ff88);border-color:transparent;color:#042033;box-shadow:0 0 0 1px rgba(255,255,255,.25) inset, 0 8px 22px rgba(0,200,255,.28)}
+    .btn:hover{transform:translateY(-1px);box-shadow:var(--glow-cyan)}
+    section{padding:34px 0}
+    .section-title{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:14px}
+    .section-title h2{margin:0;font-size:30px;color:#0b2040;position:relative}
+    .section-title h2::after{content:"";display:block;height:3px;width:72px;margin-top:8px;border-radius:99px;background:linear-gradient(90deg,#00e5ff,#ff2bd6);box-shadow:0 0 12px rgba(0,229,255,.35)}
+    .section-title p{margin:0;color:var(--muted);max-width:70ch}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .card{padding:18px}
+    .card h3{margin:0 0 8px;font-size:20px;color:#103058}
+    .card p,.card li{color:#2b4666}
+    ul{margin:8px 0 0 18px;padding:0}
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .pill{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,43,214,.35);color:#7a1c68;background:rgba(255,43,214,.06);box-shadow:0 0 10px rgba(255,43,214,.08)}
+
+    .sim-wrap{padding:0;overflow:hidden;border-color:rgba(0,229,255,.4);box-shadow:var(--shadow), 0 0 24px rgba(0,229,255,.10)}
+    .sim-head{padding:16px 18px;border-bottom:1px solid rgba(0,200,255,.22);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;background:linear-gradient(90deg,rgba(0,229,255,.06),rgba(255,43,214,.04))}
+    .sim-head p{margin:0;color:#35516f}
+    .sim-frame{width:100%;height:72vh;min-height:520px;border:0;display:block;background:#050a14}
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+
+    .timeline{display:grid;gap:12px}
+    .block{display:grid;grid-template-columns:140px 1fr;gap:14px;align-items:start;background:linear-gradient(180deg,#ffffff,#f8fbff);border:1px solid rgba(0,200,255,.25);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(16,35,61,.05)}
+    .time{font-weight:700;color:#b45309;font-size:15px}
+    .block h4{margin:0 0 4px;font-size:18px;color:#10294a}
+    .block p{margin:0 0 6px;color:#2b4666}
+    .tag{display:inline-block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#0b6b46;border:1px solid rgba(0,230,118,.35);background:rgba(0,230,118,.10);padding:3px 8px;border-radius:999px;margin-bottom:6px}
+
+    .exercise{position:relative;overflow:hidden}
+    .exercise .n{position:absolute;top:12px;right:14px;font-size:42px;font-weight:800;color:rgba(0,200,255,.12);line-height:1;text-shadow:0 0 12px rgba(0,229,255,.15)}
+    .exercise .meta-e{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+    .chip{font-size:12px;padding:4px 8px;border-radius:8px;background:rgba(0,229,255,.08);border:1px solid rgba(0,200,255,.25);color:#164e63}
+    .exercise ol,.exercise ul{margin-top:6px}
+
+    .table-like{width:100%;border-collapse:separate;border-spacing:0 8px}
+    .table-like td{padding:10px 12px;background:#f8fbff;border-top:1px solid rgba(0,200,255,.22);border-bottom:1px solid rgba(0,200,255,.22);vertical-align:top;color:#2b4666}
+    .table-like td:first-child{border-left:1px solid rgba(0,200,255,.22);border-radius:12px 0 0 12px;width:170px;color:#7c2d12;font-weight:700}
+    .table-like td:last-child{border-right:1px solid rgba(0,200,255,.22);border-radius:0 12px 12px 0}
+
+    .footer{padding:30px 0 50px;color:var(--muted);border-top:1px solid rgba(0,200,255,.25);margin-top:20px;background:linear-gradient(180deg,transparent,rgba(0,229,255,.03))}
+    .footer-logo{height:40px;width:auto;vertical-align:middle;margin-right:10px;filter:drop-shadow(0 0 8px rgba(0,229,255,.2))}
+    .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+    .kpi div{padding:12px;border:1px solid rgba(0,200,255,.25);border-radius:12px;background:#ffffff;box-shadow:0 4px 14px rgba(16,35,61,.04)}
+    .kpi b{display:block;font-size:20px;color:#0b63ce;text-shadow:0 0 10px rgba(0,200,255,.12)}
+    @media (max-width:980px){.hero-grid,.grid-3,.grid-2,.kpi{grid-template-columns:1fr}.block{grid-template-columns:1fr}.right-col{order:-1}.nav-links{display:none}.sim-frame{height:60vh}.brand-wrap{gap:8px}.logo{height:38px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <div class="brand-wrap">
+        <img src="logo-uparsistem.webp" alt="Logo Uparsistem" class="logo">
+        <div class="brand">Seminario de Tendencias Deportivas <small>Laboratorio 3D interactivo · Enfoque práctico · Uparsistem</small></div>
+      </div>
+      <div class="nav-links">
+        <a href="#simulacion">Simulación</a>
+        <a href="#plan">Plan 4 horas</a>
+        <a href="#ejercicios">Ejercicios</a>
+        <a href="#metodologia">Metodología</a>
+        <a href="#recursos">Recursos</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="badge">Para docente: Martha Toro, Árbitro · Seminario aplicado (4 horas)</span>
+        <h1>Nuevas tendencias deportivas, tecnología y práctica en un laboratorio 3D interactivo</h1>
+        <p class="lead">Landing de apoyo para un seminario presencial que integra la simulación 3D desarrollada, análisis de tendencias (Colombia 2026 y contexto global), y ejercicios prácticos para que los estudiantes exploren, discutan y apliquen conceptos de forma colaborativa.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#simulacion">Abrir simulación</a>
+          <a class="btn" href="#plan">Ver agenda 4 horas</a>
+          <a class="btn" href="#ejercicios">Ir a ejercicios</a>
+        </div>
+        <div class="kpi">
+          <div><b>4 h</b><span>Duración total</span></div>
+          <div><b>6</b><span>Zonas temáticas 3D</span></div>
+          <div><b>5</b><span>Ejercicios presenciales</span></div>
+          <div><b>3</b><span>Momentos: explorar, aplicar, transferir</span></div>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h3>Ficha del seminario</h3>
+        <div class="meta">
+          <div><b>Facilitadora</b>Martha Toro, Árbitro</div>
+          <div><b>Modalidad</b>Presencial con apoyo digital</div>
+          <div><b>Dirigido a</b>Estudiantes / técnicos en formación</div>
+          <div><b>Enfoque</b>Práctico, participativo y reflexivo</div>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Hibridación</span><span class="pill">Nuevas disciplinas</span><span class="pill">OMS y bienestar</span>
+          <span class="pill">Tecnología/VAR</span><span class="pill">Reglamentación</span><span class="pill">Inclusión</span>
+        </div>
+        <p class="note"><b>Propósito:</b> comprender tendencias deportivas actuales y traducirlas en decisiones pedagógicas, de arbitraje, gestión y promoción de la actividad física.</p>
+      </aside>
+    </div>
+  </header>
+
+  <section id="objetivos">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Objetivos de aprendizaje</h2>
+        <p>Resultados esperados al finalizar las 4 horas, alineados con el uso del laboratorio 3D y la interacción presencial.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><h3>1. Comprender</h3><p>Identificar tendencias clave: hibridación, nuevas disciplinas (slackline, lacrosse, parkour, roller freestyle, long board), deportes emergentes (pádel/pickleball), eSports y bienestar activo.</p></div>
+        <div class="card"><h3>2. Analizar</h3><p>Relacionar las dimensiones del técnico deportivo (social e inclusiva, OMS/salud, tecnología e innovación, gestión y marketing, reglamentación) con casos y escenarios reales.</p></div>
+        <div class="card"><h3>3. Aplicar</h3><p>Diseñar propuestas prácticas (actividad, adaptación reglamentaria, criterio de arbitraje/gestión o estrategia de promoción) mediante ejercicios colaborativos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="simulacion">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Simulación 3D integrada</h2>
+        <p>Laboratorio inmersivo para explorar zonas temáticas, interactuar con objetos/hologramas y apoyar la explicación durante el seminario.</p>
+      </div>
+      <div class="card sim-wrap">
+        <div class="sim-head">
+          <p><b>Uso en clase:</b> proyectar en pantalla inteligente, navegar por zonas, activar recorrido/narración y usar clic para abrir información.</p>
+          <a class="btn" href="vr-lab/index.html" target="_blank" rel="noopener">Abrir en pantalla completa</a>
+        </div>
+        <iframe class="sim-frame" src="vr-lab/index.html" title="Laboratorio 3D de tendencias deportivas" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <p class="note">Recomendación técnica: ejecutar desde servidor local (<code>python -m http.server 8080</code> en la carpeta del proyecto) y abrir <code>http://localhost:8080/seminario-martha-toro.html</code>. La simulación requiere internet para cargar librerías 3D (CDN).</p>
+    </div>
+  </section>
+
+  <section id="plan">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Plan del seminario (4 horas)</h2>
+        <p>Estructura práctica inspirada en una planificación por etapas: contexto y objetivos, exploración de experiencia, diseño/aplicación y cierre con transferencia (en línea con principios de planificación de espacios/experiencias digitales interactivas: público, tecnología, espacio y dinamización).</p>
+      </div>
+      <div class="timeline">
+        <div class="block">
+          <div class="time">00:00 – 00:25 (25 min)</div>
+          <div>
+            <span class="tag">Apertura</span>
+            <h4>Bienvenida, encuadre y diagnóstico rápido</h4>
+            <p><b>Objetivo:</b> activar conocimientos previos y alinear expectativas.</p>
+            <ul>
+              <li>Presentación de Martha Toro y propósito del seminario.</li>
+              <li>Pregunta detonante: “¿Qué tendencia deportiva está cambiando más tu contexto?” (lluvia de ideas).</li>
+              <li>Acuerdo de dinámica: equipos, roles rotativos y uso de la simulación.</li>
+            </ul>
+            <p><b>Producto:</b> mapa inicial de ideas del grupo (tablero/papelógrafo).</p>
+          </div>
+        </div>
+        <div class="block">
+          <div class="time">00:25 – 01:15 (50 min)</div>
+          <div>
+            <span class="tag">Exploración guiada</span>
+            <h4>Recorrido por la simulación 3D y tendencias clave</h4>
+            <p><b>Objetivo:</b> comprender contenidos base mediante exploración visual e interacción.</p>
+            <ul>
+              <li>Demostración en pantalla: zonas ENAFIS/OMS, pádel-pickleball, urbanos/nuevas disciplinas, híbridos, eSports y tecnología/reglamentación.</li>
+              <li>Interacción: estudiantes solicitan clic en objetos/hologramas y plantean observaciones.</li>
+              <li>Mini-síntesis: 3 hallazgos + 1 pregunta por equipo.</li>
+            </ul>
+            <p><b>Producto:</b> ficha breve de hallazgos por equipo.</p>
+          </div>
+        </div>
+        <div class="block">
+          <div class="time">01:15 – 01:25 (10 min)</div>
+          <div>
+            <span class="tag">Pausa activa</span>
+            <h4>Descanso y micro-pausa de bienestar</h4>
+            <p>Estiramiento/movilidad breve y reconexión con la recomendación de reducir sedentarismo (vínculo OMS).</p>
+          </div>
+        </div>
+        <div class="block">
+          <div class="time">01:25 – 02:35 (70 min)</div>
+          <div>
+            <span class="tag">Aplicación práctica</span>
+            <h4>Laboratorio de ejercicios presenciales (estaciones)</h4>
+            <p><b>Objetivo:</b> aplicar conceptos en situaciones concretas con interacción entre estudiantes.</p>
+            <ul>
+              <li>Rotación por estaciones (4 estaciones, ~15 min c/u + transición): hibridación/reglas, inclusión y bienestar, tecnología/arbitraje-gestión, diseño de experiencia.</li>
+              <li>Cada estación usa un reto, la simulación como referencia y un entregable corto.</li>
+            </ul>
+            <p><b>Producto:</b> 4 micro-entregables por equipo (ver ejercicios).</p>
+          </div>
+        </div>
+        <div class="block">
+          <div class="time">02:35 – 02:45 (10 min)</div>
+          <div>
+            <span class="tag">Pausa</span>
+            <h4>Transición y preparación de socialización</h4>
+            <p>Organización de evidencias y selección de portavoz por equipo.</p>
+          </div>
+        </div>
+        <div class="block">
+          <div class="time">02:45 – 03:35 (50 min)</div>
+          <div>
+            <span class="tag">Socialización y retroalimentación</span>
+            <h4>Presentación de propuestas y diálogo experto</h4>
+            <p><b>Objetivo:</b> contrastar soluciones, recibir retroalimentación y afinar criterios técnicos.</p>
+            <ul>
+              <li>Pitch por equipo (3–4 min): problema, propuesta y criterio aplicado.</li>
+              <li>Retroalimentación de Martha Toro (arbitraje, reglamentación, juego limpio, seguridad, inclusión).</li>
+              <li>Preguntas del grupo y ajustes en vivo.</li>
+            </ul>
+            <p><b>Producto:</b> propuesta mejorada por equipo.</p>
+          </div>
+        </div>
+        <div class="block">
+          <div class="time">03:35 – 04:00 (25 min)</div>
+          <div>
+            <span class="tag">Cierre y transferencia</span>
+            <h4>Síntesis, evaluación rápida y compromiso de aplicación</h4>
+            <p><b>Objetivo:</b> consolidar aprendizajes y definir transferencia al contexto propio.</p>
+            <ul>
+              <li>Reflexión final: “¿Qué cambio concreto implementaré en 30 días?”</li>
+              <li>Evaluación rápida (ticket de salida): 1 aprendizaje, 1 duda, 1 acción.</li>
+              <li>Cierre: conexión entre tendencias, evidencia (OMS/ENAFIS) y práctica profesional.</li>
+            </ul>
+            <p><b>Producto:</b> compromiso individual de transferencia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ejercicios">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Ejercicios prácticos (interacción presencial)</h2>
+        <p>Actividades diseñadas para trabajo en equipos, usando la simulación como disparador y generando productos concretos en el aula.</p>
+      </div>
+      <div class="grid-2">
+        <article class="card exercise">
+          <div class="n">01</div>
+          <h3>Exploración dirigida por zonas (calentamiento cognitivo)</h3>
+          <div class="meta-e"><span class="chip">Tiempo: 20 min</span><span class="chip">Modalidad: equipos</span><span class="chip">Recurso: simulación 3D</span></div>
+          <p><b>Objetivo:</b> identificar evidencias y tendencias en las zonas del laboratorio.</p>
+          <ol>
+            <li>Asignar una zona por equipo (ENAFIS/OMS, pádel-pickleball, urbanos, híbridos/teqball, eSports/tecnología).</li>
+            <li>Hacer clic en objetos/hologramas y registrar: 2 datos clave, 1 oportunidad y 1 riesgo.</li>
+            <li>Compartir en 60 segundos por equipo.</li>
+          </ol>
+          <p><b>Entregable:</b> tarjeta de hallazgos (dato-oportunidad-riesgo).</p>
+        </article>
+
+        <article class="card exercise">
+          <div class="n">02</div>
+          <h3>Hibridación y micro-reglamento</h3>
+          <div class="meta-e"><span class="chip">Tiempo: 15 min</span><span class="chip">Modalidad: estación</span><span class="chip">Foco: reglamentación</span></div>
+          <p><b>Objetivo:</b> diseñar una adaptación segura y justa de un formato híbrido (ej. fútbol-tenis u otro emergente).</p>
+          <ol>
+            <li>Elegir un deporte híbrido de la simulación y definir espacio, participantes y objetivo del juego.</li>
+            <li>Redactar 5 reglas básicas (inicio, puntuación, falta, seguridad, inclusión/adaptación).</li>
+            <li>Definir 1 criterio arbitral ante una jugada dudosa.</li>
+          </ol>
+          <p><b>Entregable:</b> micro-reglamento en una hoja.</p>
+        </article>
+
+        <article class="card exercise">
+          <div class="n">03</div>
+          <h3>Inclusión, bienestar y prescripción activa</h3>
+          <div class="meta-e"><span class="chip">Tiempo: 15 min</span><span class="chip">Modalidad: estación</span><span class="chip">Foco: OMS/ENAFIS</span></div>
+          <p><b>Objetivo:</b> convertir recomendaciones de actividad física en una acción concreta y accesible.</p>
+          <ol>
+            <li>Seleccionar un grupo objetivo (escolares, jóvenes, adultos, personas mayores o mixto).</li>
+            <li>Diseñar una sesión breve (15–20 min) inspirada en una disciplina/tendencia vista, incluyendo adaptación inclusiva.</li>
+            <li>Justificar cómo promueve bienestar y reduce sedentarismo (OMS/ENAFIS).</li>
+          </ol>
+          <p><b>Entregable:</b> ficha de sesión activa inclusiva.</p>
+        </article>
+
+        <article class="card exercise">
+          <div class="n">04</div>
+          <h3>Tecnología, arbitraje y toma de decisiones</h3>
+          <div class="meta-e"><span class="chip">Tiempo: 15 min</span><span class="chip">Modalidad: estación</span><span class="chip">Foco: VAR/datos</span></div>
+          <p><b>Objetivo:</b> analizar el rol de la tecnología en la justicia deportiva y la experiencia de juego.</p>
+          <ol>
+            <li>Tomar un caso (p. ej. jugada límite/fuera de juego o decisión en formato emergente).</li>
+            <li>Definir qué evidencia usaría (observación, video/VAR, sensor/dato) y su límite.</li>
+            <li>Redactar el criterio de decisión y cómo comunicarlo para transparencia.</li>
+          </ol>
+          <p><b>Entregable:</b> protocolo breve de decisión y comunicación.</p>
+        </article>
+
+        <article class="card exercise">
+          <div class="n">05</div>
+          <h3>Diseño de experiencia “aula/lab” (planificación)</h3>
+          <div class="meta-e"><span class="chip">Tiempo: 25 min</span><span class="chip">Modalidad: estación + plenaria</span><span class="chip">Foco: gestión</span></div>
+          <p><b>Objetivo:</b> planificar una actividad/espacio de aprendizaje deportivo interactivo (inspirado en la lógica de planificación de un espacio digital: público, espacio, tecnología y dinamización).</p>
+          <ol>
+            <li>Definir público objetivo y objetivo de aprendizaje.</li>
+            <li>Configurar el espacio: zona de proyección/simulación, zona de práctica y materiales.</li>
+            <li>Seleccionar recursos tecnológicos (pantalla inteligente, simulación, audio, fichas) y una dinámica de participación.</li>
+            <li>Establecer indicadores de éxito (participación, comprensión, aplicación).</li>
+          </ol>
+          <p><b>Entregable:</b> canvas de planificación (1 página) para replicar la experiencia.</p>
+        </article>
+
+        <article class="card exercise">
+          <div class="n">06</div>
+          <h3>Ticket de salida y transferencia (cierre individual)</h3>
+          <div class="meta-e"><span class="chip">Tiempo: 10 min</span><span class="chip">Modalidad: individual</span><span class="chip">Foco: reflexión</span></div>
+          <p><b>Objetivo:</b> consolidar el aprendizaje y llevarlo a la práctica profesional.</p>
+          <ul>
+            <li><b>1 aprendizaje</b> clave del seminario.</li>
+            <li><b>1 idea</b> que aplicará en su contexto (clase, entrenamiento, arbitraje o gestión).</li>
+            <li><b>1 pregunta</b> o necesidad de profundización.</li>
+          </ul>
+          <p><b>Entregable:</b> ticket de salida (físico o digital).</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="metodologia">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Metodología y sentido práctico</h2>
+        <p>El seminario se organiza como una experiencia interactiva: exploración digital + práctica presencial + transferencia.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Secuencia didáctica</h3>
+          <table class="table-like">
+            <tr><td>1. Activar</td><td>Diagnóstico, preguntas detonantes y propósito compartido.</td></tr>
+            <tr><td>2. Explorar</td><td>Recorrido guiado por la simulación 3D y análisis de evidencias/tendencias.</td></tr>
+            <tr><td>3. Aplicar</td><td>Ejercicios en estaciones con productos concretos (reglas, sesión, protocolo, plan).</td></tr>
+            <tr><td>4. Transferir</td><td>Socialización, retroalimentación experta y compromiso de aplicación en contexto real.</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Criterios de planificación (adaptados al seminario)</h3>
+          <ul>
+            <li><b>Público y objetivos:</b> contenidos y ejercicios según nivel y necesidades del grupo.</li>
+            <li><b>Espacio y flujo:</b> zona de proyección (simulación), zonas de trabajo por equipos y circulación para rotación.</li>
+            <li><b>Tecnología con propósito:</b> la simulación apoya visualización, discusión y toma de decisiones (no reemplaza la práctica).</li>
+            <li><b>Interacción y participación:</b> roles, retos por estación y productos tangibles.</li>
+            <li><b>Evaluación formativa:</b> observación, entregables breves y ticket de salida.</li>
+          </ul>
+          <p class="note">Referencia de enfoque de planificación consultada: ESAC (2026), “Cómo planificar un pabellón deportivo digital para espacios de entretenimiento modernos”.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos">
+    <div class="wrap">
+      <div class="section-title">
+        <h2>Recursos y logística para el aula</h2>
+        <p>Lista sugerida para ejecutar el seminario de forma fluida en un espacio presencial con pantalla inteligente.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Tecnología</h3>
+          <ul>
+            <li>Pantalla inteligente/proyector + computador con navegador (Chrome/Edge).</li>
+            <li>Internet para cargar la simulación (CDN) o versión local de librerías.</li>
+            <li>Audio (parlantes) para narración/ambiente si se usa.</li>
+            <li>Opcional: tablets/celulares para que equipos exploren la simulación.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Materiales presenciales</h3>
+          <ul>
+            <li>Tablero/papelógrafo, marcadores y notas adhesivas.</li>
+            <li>Plantillas impresas: hallazgos, micro-reglamento, sesión activa, protocolo y canvas.</li>
+            <li>Cronómetro y señalética de estaciones (1 a 4).</li>
+            <li>Espacio despejado para pausa activa/demostraciones seguras.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Roles sugeridos</h3>
+          <ul>
+            <li><b>Facilitadora:</b> guía conceptual y retroalimentación técnica (Martha Toro).</li>
+            <li><b>Operador/a técnico:</b> maneja simulación y tiempos.</li>
+            <li><b>Equipos:</b> relator, analista, diseñador de propuesta y portavoz (rotativos).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3>Ejes temáticos integrados en la simulación</h3>
+        <p>Panorama Colombia 2026, ENAFIS 2025-2026 y OMS, pádel/pickleball, deportes urbanos y nuevas disciplinas (slackline, lacrosse, parkour, roller freestyle, long board), hibridación (fútbol-tenis/teqball), eSports y transformación digital (Ley 2507 de 2025), y tecnología/reglamentación (VAR, datos, seguridad e inclusión).</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p><img src="logo-uparsistem.webp" alt="Logo Uparsistem" class="footer-logo"><b>Seminario de Tendencias Deportivas y Laboratorio 3D Interactivo</b> · Recurso de apoyo para la docente Martha Toro, Árbitro · Uparsistem.</p>
+      <p class="note">Esta landing integra la simulación desarrollada en el proyecto (<code>vr-lab/index.html</code>) y una planificación de 4 horas con ejercicios presenciales. Ajustar tiempos, profundidad y ejemplos según el nivel del grupo y las condiciones del espacio.</p>
+    </div>
+  </footer>
+</body>
+</html>
